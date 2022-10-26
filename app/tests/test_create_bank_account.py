@@ -32,5 +32,5 @@ class TestCreateBankAccount(unittest.TestCase):
         drugie_konto = Konto(self.imie, self.nazwisko, '59123456789', 'PROM_XYZ')
         self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960- saldo nie równa się 0')
         drugie_konto = Konto(self.imie, self.nazwisko, '02223456789', 'PROM_XYZ')
-        self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960+ saldo nie równa się 0')
+        self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960+ saldo nie równa się 50')
         
