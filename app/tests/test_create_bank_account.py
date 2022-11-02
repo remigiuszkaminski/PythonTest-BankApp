@@ -18,14 +18,7 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(pierwsze_konto.saldo, 0, "Saldo nie jest zerowe!")
         self.assertEqual(pierwsze_konto.pesel, '94320943890890432', 'Brak numeru pesel')
 
-    def test_tworzenie_konta_firmowego(self):
-        konto = KontoFirmowe(self.nazwafirmy, self.NIP)
-        self.assertEqual(konto.nazwafirmy, self.nazwafirmy, 'Nazwa firmy nie została zapisana!')
-        self.assertEqual(konto.NIP, self.NIP, 'NIP nie został zapisany!')
-
-    def test_podanie_poprawnego_NIP(self):
-        konto = KontoFirmowe(self.nazwafirmy, self.NIP)
-        self.assertEqual(len(self.NIP), len('1234567891'), 'Niepoprawny NIP')
+    
     #tutaj proszę dodawać nowe testy
     def test_dlugosc_pesel(self):
         drugie_konto = Konto(self.imie, self.nazwisko, self.pesel)
@@ -46,6 +39,15 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960- saldo nie równa się 0')
         drugie_konto = Konto(self.imie, self.nazwisko, '02223456789', 'PROM_XYZ')
         self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960+ saldo nie równa się 50')
+
+    def test_tworzenie_konta_firmowego(self):
+        konto = KontoFirmowe(self.nazwafirmy, self.NIP)
+        self.assertEqual(konto.nazwafirmy, self.nazwafirmy, 'Nazwa firmy nie została zapisana!')
+        self.assertEqual(konto.NIP, self.NIP, 'NIP nie został zapisany!')
+
+    def test_podanie_poprawnego_NIP(self):
+        konto = KontoFirmowe(self.nazwafirmy, self.NIP)
+        self.assertEqual(len(konto.NIP), len('1234567891'), 'Niepoprawny NIP')
 
 
 
