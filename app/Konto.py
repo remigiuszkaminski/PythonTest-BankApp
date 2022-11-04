@@ -19,3 +19,36 @@ class Konto:
             self.saldo = 50
         else:
             self.saldo = 0
+    
+
+    def ksiegowanie_wychodzacego(self, kwota):
+        if(self.saldo >= kwota and kwota > 0):
+            self.saldo = self.saldo - kwota
+        else:
+            self.saldo = self.saldo
+    
+    def ksiegowanie_przychodzacego(self, kwota):
+        if(kwota > 0):
+            self.saldo = self.saldo + kwota
+        else:
+            self.saldo = self.saldo
+    
+    def ksiegowanie_ekspresowego(self, kwota):
+            if(self.saldo >= kwota and kwota > 0):
+                self.saldo = self.saldo - kwota - 1
+            else:
+                self.saldo = self.saldo
+
+            
+
+class KontoFirmowe(Konto):
+    def __init__(self, nazwafirmy, NIP):
+        self.nazwafirmy = nazwafirmy
+        self.NIP = NIP
+        self.saldo = 0
+    def ksiegowanie_ekspresowego(self, kwota):
+        if(self.saldo >= kwota and kwota > 0):
+            self.saldo = self.saldo - kwota - 5
+        else:
+            self.saldo = self.saldo
+
