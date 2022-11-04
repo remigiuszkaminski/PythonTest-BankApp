@@ -39,8 +39,7 @@ jobs:
         python3 -m unittest
         pip3 install coverage
         python3 -m -coverage -m unittest
-    - name: Show coverage report
-      run: |
-        python3 -m coverage report
+        python3 -m -coverage report --fail-under=100
+
 
         
