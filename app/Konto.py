@@ -6,6 +6,7 @@ class Konto:
         self.nazwisko = nazwisko
         self.saldo = 0
         self.pesel = pesel
+        self.history = []
         self.couponApplication(rabat)
 
 
@@ -24,20 +25,25 @@ class Konto:
     def ksiegowanie_wychodzacego(self, kwota):
         if(self.saldo >= kwota and kwota > 0):
             self.saldo = self.saldo - kwota
+            self.history.append(-kwota)
         else:
             self.saldo = self.saldo
     
     def ksiegowanie_przychodzacego(self, kwota):
         if(kwota > 0):
             self.saldo = self.saldo + kwota
+            self.history.append(kwota)
         else:
             self.saldo = self.saldo
     
     def ksiegowanie_ekspresowego(self, kwota):
             if(self.saldo >= kwota and kwota > 0):
                 self.saldo = self.saldo - kwota - 1
+                self.history.append(-kwota-1)
             else:
                 self.saldo = self.saldo
+
+    
 
             
 
@@ -46,9 +52,11 @@ class KontoFirmowe(Konto):
         self.nazwafirmy = nazwafirmy
         self.NIP = NIP
         self.saldo = 0
+        self.history = []
     def ksiegowanie_ekspresowego(self, kwota):
         if(self.saldo >= kwota and kwota > 0):
             self.saldo = self.saldo - kwota - 5
+            self.history.append(-kwota-5)
         else:
             self.saldo = self.saldo
 
