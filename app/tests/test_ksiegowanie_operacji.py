@@ -27,6 +27,11 @@ class TestSendingAndReceivingMoney(unittest.TestCase):
         konto.saldo = 900
         konto.ksiegowanie_wychodzacego(1000)
         self.assertEqual(konto.saldo, 900, 'Saldo nie jest takie samo mimo podanej zbyt dużej kwoty przelewu')
+    def test_proba_przelewu_ujemnego(self):
+        konto = Konto(self.imie, self.nazwisko, self.pesel)
+        konto.saldo = 900
+        konto.ksiegowanie_przychodzacego(-1000)
+        self.assertEqual(konto.saldo, 900, 'Saldo nie jest takie samo mimo podanej ujemnej kwoty przelewu')
 
     def test_przelew_przychodzacy_firma(self):
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
