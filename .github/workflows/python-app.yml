@@ -37,5 +37,9 @@ jobs:
     - name: Test with pytest
       run: |
         python3 -m unittest
+        pip3 install coverage
+        python3 -m coverage run -m unittest
+        python3 -m coverage report --fail-under=100
+
 
         
