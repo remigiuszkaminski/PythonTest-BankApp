@@ -43,6 +43,20 @@ class Konto:
             else:
                 self.saldo = self.saldo
 
+    def zaciagnij_kredyt(self, kwota):
+        last_3 = self.history[-3:]
+        last_5 = sum(self.history[-5:])
+        test = True
+        for x in last_3:
+            if(x < 0):
+                test = False
+                return False
+        if((last_5>kwota) and (test)):
+            self.saldo = self.saldo + kwota
+            return True
+        else:
+            return False
+
     
 
             
