@@ -75,12 +75,13 @@ class KontoFirmowe(Konto):
             self.saldo = self.saldo
     def zaciagnij_kredyt(self, kwota):
         test = True
-        if(2 * kwota > self.saldo):
-            test = False
-        else:
+        if(2 * kwota <= self.saldo):
             test = True
-        if -1775 not in self.history: test = False
-        if(test):
+        else:
+            test = False
+        if -1775 not in self.history:
+            test = False
+        if((test)):
             self.saldo = self.saldo + kwota
             return True
         else:
