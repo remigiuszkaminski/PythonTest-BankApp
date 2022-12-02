@@ -11,7 +11,9 @@ class TestKredytFirmowy(unittest.TestCase):
 
     @parameterized.expand([
         ([4661,-1750,300,100,500], 500, 250, True, 750),
-        ([4661, 1750, 300, 100, 500], 500, 250, False, 500)
+        ([4661, 1750, 300, 100, 500], 500, 250, False, 500),
+        ([666, 789], 700, 300, False, 700),
+        ([-1750, 700], 800, 450, False, 800)
         
     ])
     def test_zaciagniecie_kredytu_firma(self, historia, saldo, kwota, oczekiwany_wynik, oczekiwane_saldo):
