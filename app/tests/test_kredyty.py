@@ -21,7 +21,7 @@ class TestKredyt(unittest.TestCase):
     def test_5_zaciagniecie_kredytu(self, historia, kwota, oczekiwany_wynik, oczekiwane_saldo):
         self.konto.history = historia
         czy_przyznany = self.konto.zaciagnij_kredyt(kwota)
-        self.assertEquals(czy_przyznany, oczekiwany_wynik)
+        self.assertEqual(czy_przyznany, oczekiwany_wynik)
         self.assertEqual(self.konto.saldo, oczekiwane_saldo)
 
     # def test_zaciaganie_kredytu(self):
