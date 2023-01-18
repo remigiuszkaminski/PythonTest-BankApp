@@ -7,6 +7,8 @@ app = Flask(__name__)
 @app.route("/konta/stworz_konto", methods=['POST'])
 def stworz_konto():
     dane = request.get_json()
+    if RejestrKont.searchByPesel(dane['pesel']) != None:
+        return jsonify('Konto o podanym pesel juz istnieje'), 400
     konto = Konto(dane["imie"], dane["nazwisko"], dane["pesel"])
     RejestrKont.addAccToArray(konto)
     return jsonify("Konto stworzone"), 201

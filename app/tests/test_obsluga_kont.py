@@ -5,7 +5,7 @@ class TestObslugaKont(unittest.TestCase):
     body = {
         'imie': 'nick',
         'nazwisko': 'drenaz',
-        'pesel' : '12345678902'
+        'pesel' : '54678912344'
     }
 
     url = 'http://localhost:5000'

@@ -15,7 +15,7 @@ class TestRejestrKont(unittest.TestCase):
 
 
     def test_1_dodanie_konta_do_listy(self):
-        konto=Konto(self.imie, self.nazwisko, self.pesel)
+        konto=Konto(self.imie, self.nazwisko, '11111444445')
         konto2=Konto(self.imie, self.nazwisko, '12345678901')
         RejestrKont.addAccToArray(konto)
         RejestrKont.addAccToArray(konto2)
@@ -61,6 +61,7 @@ class TestRejestrKont(unittest.TestCase):
         dlugosc_przed_usunieciem = RejestrKont.giveLengthOfArr()
         self.assertEqual(RejestrKont.accRemove('33445533339'), None, 'Pesel nie istnieje, wiec nie powinno nic usunac a zwrocic none')
         self.assertEqual(RejestrKont.giveLengthOfArr(), dlugosc_przed_usunieciem, "Dlugosc nie powinna ulec zmianie")
+
 
     @classmethod
     def tearDownClass(cls):
