@@ -23,13 +23,22 @@ def wyszukaj_konto_z_peselem(pesel):
 # @app.route("konta/konto/<pesel>", methods=['PUT'])
 # def update_konto_z_peselem(pesel):
 
-@app.route("konta/konto/<pesel>", methods=['PUT'])
+@app.route("/konta/konto/<pesel>", methods=['PUT'])
 def aktualizuj_konto(pesel):
-    dane = request.get_json()
-    konto = RejestrKont.searchByPesel(pesel)
-    konto.imie = dane["imie"] if "imie" in dane else konto.imie
-    konto.nazwisko = dane["nazwisko"] if "nazwisko" in dane else konto.nazwisko
-    konto.pesel = dane["pesel"] if "pesel" in dane else konto.pesel
-    konto.saldo = dane["saldo"] if "saldo" in dane else konto.dane
-    return jsonify("Zakonczono sukcesem"), 200
+    aktualizowane = request.get_json()
+    if 'pesel' in aktualizowane and RejestrKont.searchByPesel(aktualizowane['pesel']) != None:
+        return jsonify("Konto to istnieje, mozliwosc aktualizowania"), 400
+    konto = RejestrKont.updateAcc(pesel, aktualizowane)
+    if(konto == None):
+        return jsonify("Konto o danym peselu nie istnieje"), 200
+    return jsonify(imie=konto.imie, nazwisko=konto.nazwisko, pesel=konto.pesel, saldo=konto.saldo), 200
+
+
+@app.route("/konta/konto/<pesel>", methods=['DELETE'])
+def usun_konto(pesel):
+    konto = RejestrKont.accRemove(pesel)
+    if(konto == None):
+        return jsonify("Konto o danym peselu nie istnieje"), 200
+    return jsonify("Konto zostalo usuniete"), 200
+    
 
