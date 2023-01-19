@@ -2,6 +2,7 @@ import unittest
 
 from ..Konto import Konto
 from ..Konto import KontoFirmowe
+from unittest.mock import patch, Mock
 
 class TestCreateBankAccount(unittest.TestCase):
     imie = 'darek'
@@ -10,7 +11,11 @@ class TestCreateBankAccount(unittest.TestCase):
     rabat = 'PROM_OMX'
 
     nazwafirmy = 'Pankracy i fajtłacy'
-    NIP = '9988776655'
+    NIP = '1234561232'
+
+    def _mock_response(self, status):
+        return Mock(status_code=status)
+
     def test_tworzenie_konta(self):
         pierwsze_konto = Konto(self.imie, "Januszewski", '94320943890890432')
         self.assertEqual(pierwsze_konto.imie, self.imie, "Imie nie zostało zapisane!")
@@ -40,14 +45,27 @@ class TestCreateBankAccount(unittest.TestCase):
         drugie_konto = Konto(self.imie, self.nazwisko, '02223456789', 'PROM_XYZ')
         self.assertEqual(drugie_konto.saldo, 0, 'Pomimo bycia rocznikiem 1960+ saldo nie równa się 50')
 
-    def test_tworzenie_konta_firmowego(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_tworzenie_konta_firmowego(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = False
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         self.assertEqual(konto.nazwafirmy, self.nazwafirmy, 'Nazwa firmy nie została zapisana!')
-        self.assertEqual(konto.NIP, self.NIP, 'NIP nie został zapisany!')
+        self.assertEqual(konto.NIP, 'PRANIE', 'NIP nie został zapisany!')
 
-    def test_podanie_poprawnego_NIP(self):
-        konto = KontoFirmowe(self.nazwafirmy, self.NIP)
-        self.assertEqual(len(konto.NIP), len('1234567891'), 'Niepoprawny NIP')
+    @patch('requests.get')
+    def test_podanie_poprawnego_NIP(self, mock_get):
+        mock_res = self._mock_response(status=200)
+        mock_get.return_value = mock_res
+        konto = KontoFirmowe('KFC', '5260211104')
+        self.assertEqual(konto.NIP, '5260211104', 'Poprawny nip nie dziala ')
+
+    @patch('requests.get')
+    def test_podanie_niepoprawnego_NIP(self, mock_get):
+        mock_res = self._mock_response(status=200)
+        mock_get.return_value = mock_res
+        konto = KontoFirmowe('KFC', '520211104')
+        self.assertEqual(konto.NIP, 'Niepoprawny NIP', 'Nieoprawny nip dziala ')
+
 
 
 

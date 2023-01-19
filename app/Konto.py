@@ -1,5 +1,7 @@
 import re
-
+import requests
+import os
+from datetime import date
 class Konto:
     def __init__(self, imie, nazwisko, pesel, rabat = ''):
         self.imie = imie
@@ -59,14 +61,35 @@ class Konto:
 
     
 
-            
+
 
 class KontoFirmowe(Konto):
     def __init__(self, nazwafirmy, NIP):
         self.nazwafirmy = nazwafirmy
-        self.NIP = NIP
+        self.sprawdz_nip(NIP)
         self.saldo = 0
         self.history = []
+
+
+    def pobierz_nip(self, NIP):
+        dzis = date.today().strftime("%Y-%m-%d")
+        response = requests.get(
+                f"{os.environ.get('BANK_APP_MF_URL')}/api/search/nip/{NIP}?date={dzis}"
+                )
+        if (response.status_code == 200):
+            return True
+        else:
+            return False
+        
+    def sprawdz_nip(self, NIP):
+        if(len(NIP) == 10 and NIP.isdigit()):
+            if (self.pobierz_nip(NIP)):
+                self.NIP = NIP
+            else:
+                self.NIP = 'PRANIE'
+        else:
+            self.NIP = 'Niepoprawny NIP'
+    
     def ksiegowanie_ekspresowego(self, kwota):
         if(self.saldo >= kwota and kwota > 0):
             self.saldo = self.saldo - kwota - 5
@@ -86,4 +109,6 @@ class KontoFirmowe(Konto):
             return True
         else:
             return False 
+        
+        
 
