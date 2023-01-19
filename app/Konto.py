@@ -2,6 +2,7 @@ import re
 import requests
 import os
 from datetime import date
+from .SMTPConnection import SMTPConnection
 class Konto:
     def __init__(self, imie, nazwisko, pesel, rabat = ''):
         self.imie = imie
@@ -58,6 +59,14 @@ class Konto:
             return True
         else:
             return False
+        
+    def wysylanie_historii_na_maila(self, email, SMTP):
+        temat = f"Wyciąg z dnia {date.today().strftime('%Y-%m-%d')}"
+        tresc = f"Twoja historia konta to: {self.history}"
+        if SMTP.wyslij(temat, tresc, email):
+            return True
+        return False
+
 
     
 
@@ -109,6 +118,13 @@ class KontoFirmowe(Konto):
             return True
         else:
             return False 
+        
+    def wysylanie_historii_na_maila(self, email, SMTP):
+        temat = f"Wyciąg z dnia {date.today().strftime('%Y-%m-%d')}"
+        tresc = f"Historia konta Twojej firmy to: {self.history}"
+        if SMTP.wyslij(temat, tresc, email):
+            return True
+        return False
         
         
 
