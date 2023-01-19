@@ -36,6 +36,9 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
+        pip3 install requests
+        pip3 install parameterized
+        pip3 install flask
         python3 -m unittest
         pip3 install coverage
         python3 -m coverage run -m unittest
