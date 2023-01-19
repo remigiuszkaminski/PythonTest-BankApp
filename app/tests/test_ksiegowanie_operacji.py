@@ -2,7 +2,7 @@ import unittest
 
 from ..Konto import Konto
 from ..Konto import KontoFirmowe
-
+from unittest.mock import patch
 
 
 class TestSendingAndReceivingMoney(unittest.TestCase):
@@ -33,22 +33,30 @@ class TestSendingAndReceivingMoney(unittest.TestCase):
         konto.ksiegowanie_przychodzacego(-1000)
         self.assertEqual(konto.saldo, 900, 'Saldo nie jest takie samo mimo podanej ujemnej kwoty przelewu')
 
-    def test_przelew_przychodzacy_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_przelew_przychodzacy_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 900
         konto.ksiegowanie_przychodzacego(900)
         self.assertEqual(konto.saldo, 900+900, 'Saldo nie jest rowne wartosci oczekiwanej')
-    def test_przelew_wychodzacy_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')    
+    def test_przelew_wychodzacy_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 900
         konto.ksiegowanie_wychodzacego(300)
         self.assertEqual(konto.saldo, 900-300, 'Saldo nie jest rowne wartosci oczekiwanej')
-    def test_przelew_wychodzacy_zerowanie_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_przelew_wychodzacy_zerowanie_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 900
         konto.ksiegowanie_wychodzacego(900)
         self.assertEqual(konto.saldo, 900-900, 'Saldo nie jest rowne wartosci oczekiwanej')
-    def test_brak_kasy_na_przelew_wychodzacy_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_brak_kasy_na_przelew_wychodzacy_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 900
         konto.ksiegowanie_wychodzacego(10000)
@@ -66,12 +74,16 @@ class TestSendingAndReceivingMoney(unittest.TestCase):
         konto.saldo = 900
         konto.ksiegowanie_ekspresowego(901)
         self.assertEqual(konto.saldo, konto.saldo, 'Saldo nie jest rowne wartosci oczekiwanej')
-    def test_ekspresowy_wychodzacy_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_ekspresowy_wychodzacy_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 800
         konto.ksiegowanie_ekspresowego(800)
         self.assertEqual(konto.saldo, 800-800-5, 'saldo nie jest rowne wartosci oczekiwanej')
-    def test_brak_kasy_ekspresowy_wychodzacy_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_brak_kasy_ekspresowy_wychodzacy_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 800
         konto.ksiegowanie_ekspresowego(805)
@@ -93,7 +105,9 @@ class TestSendingAndReceivingMoney(unittest.TestCase):
         konto.saldo = 700
         konto.ksiegowanie_ekspresowego(200)
         self.assertEqual(konto.history, [-201], 'historia konta nie zgadza sie')
-    def test_historia_ekspresowa_firma(self):
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def test_historia_ekspresowa_firma(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         konto = KontoFirmowe(self.nazwafirmy, self.NIP)
         konto.saldo = 200
         konto.ksiegowanie_ekspresowego(50)

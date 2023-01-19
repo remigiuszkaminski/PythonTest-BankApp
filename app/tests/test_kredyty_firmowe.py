@@ -1,12 +1,15 @@
 import unittest
 from parameterized import parameterized
 from ..Konto import KontoFirmowe
-
+from unittest.mock import patch
 class TestKredytFirmowy(unittest.TestCase):
     nazwafirmy = 'Lacka Sliwa'
-    NIP = '13245678901'
+    NIP = '5260211104'
     
-    def setUp(self):
+
+    @patch('app.Konto.KontoFirmowe.pobierz_nip')
+    def setUp(self, mock_pobierz_nip):
+        mock_pobierz_nip.return_value = True
         self.konto = KontoFirmowe(self.nazwafirmy, self.NIP)
 
     @parameterized.expand([
